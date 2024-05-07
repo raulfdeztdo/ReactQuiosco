@@ -1,9 +1,12 @@
+import { formatearPrecio } from "../helpers";
 import useQuiosco from "../hooks/useQuiosco"
 import ResumenProducto from "./ResumenProducto";
 
 export default function Resumen() {
 
-    const { pedido } = useQuiosco();
+    const { pedido, total } = useQuiosco();
+
+    const comprobarPedido = () => pedido.length === 0;
 
     return (
         <aside className="w-full md:w-72 h-screen ovwerflow-y-scroll p-5">
@@ -26,12 +29,18 @@ export default function Resumen() {
             </div>
 
             <p className="text-xl mt-10">
-                Total:
+                Total: {''}
+                <span className="font-bold text-2xl text-amber-600">{formatearPrecio(total)}</span>
             </p>
 
             <form className="wfull">
                 <div className="mt-5">
-                    <input type="submit" className="p-3 mt-5 w-full font-bold text-white uppercase shadow-sm cursor-pointer bg-sky-600 hover:bg-sky-800 rounded-xl" value="Realizar pedido" />
+                    <input
+                        type="submit"
+                        className={`p-3 mt-5 w-full font-bold text-white uppercase shadow-sm cursor-pointer ${comprobarPedido() ? 'bg-sky-100' : ' bg-sky-600 hover:bg-sky-800' } rounded-xl`}
+                        value="Realizar pedido"
+                        disabled={comprobarPedido()}
+                    />
                 </div>
             </form>
         </aside>

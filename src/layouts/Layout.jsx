@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Modal from "react-modal";
+import { ToastContainer } from "react-toastify";
 import Sidebar from "../components/Sidebar";
 import Resumen from "../components/Resumen";
 import ModalProducto from "../components/ModalProducto";
@@ -41,6 +42,13 @@ export default function Layout() {
             <Modal isOpen={modal} style={customStyles}>
                 <ModalProducto />
             </Modal>
+
+            <ToastContainer
+                autoClose={5000}
+                closeOnClick
+                draggable
+                theme="dark"
+            />
         </>
     )
 }

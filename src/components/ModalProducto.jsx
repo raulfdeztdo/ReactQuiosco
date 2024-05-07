@@ -6,11 +6,13 @@ export default function ModalProducto() {
 
     const { producto, handleClickModal, handleAgregarPedido, pedido } = useQuiosco();
     const [cantidad, setCantidad] = useState(1);
+    const [edicion, setEdicion] = useState(false);
 
     useEffect(() => {
         if (pedido.some( pedidoState => pedidoState.id === producto.id)) {
-            const { cantidad } = pedido.find( pedidoState => pedidoState.id === producto.id);
-            setCantidad(cantidad);
+            const productoEdicion = pedido.filter( pedidoState => pedidoState.id === producto.id)[0];
+            setCantidad(productoEdicion.cantidad);
+            setEdicion(true);
         }
     }, [pedido]);
 
@@ -69,7 +71,7 @@ export default function ModalProducto() {
                         handleClickModal();
                     }}
                 >
-                    Añadir al carrito
+                    {edicion ? "Guardar cambios" : "Añadir al carrito"}
                 </button>
 
             </div>

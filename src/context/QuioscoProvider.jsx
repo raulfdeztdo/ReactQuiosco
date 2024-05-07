@@ -1,19 +1,19 @@
-import React, { createContext, useState } from 'react';
-import { categorias as categoriasDb } from "../data/categorias";
+import React, { createContext, useState } from 'react'
+import { categorias as categoriasDb } from "../data/categorias"
 
 const QuioscoContext = createContext();
 
 const QuioscoProvider = ({children}) => {
 
-    const [categorias, setCategorias] = useState(categoriasDb);
-    const [categoriaActual, setCategoriaActual] = useState(categoriasDb[0]);
-    const [modal, setModal] = useState(false);
-    const [producto, setProducto] = useState({});
-    const [pedido, setPedido] = useState([]);
+    const [categorias, setCategorias] = useState(categoriasDb)
+    const [categoriaActual, setCategoriaActual] = useState(categoriasDb[0])
+    const [modal, setModal] = useState(false)
+    const [producto, setProducto] = useState({})
+    const [pedido, setPedido] = useState([])
 
     const handleClickCategoria = categoriaP => {
-        const categoria = categorias.filter( categoria => categoriaP.id === categoria.id)[0];
-        setCategoriaActual(categoria);
+        const categoria = categorias.filter( categoria => categoriaP.id === categoria.id)[0]
+        setCategoriaActual(categoria)
     }
 
     const handleClickModal = () => {
@@ -24,21 +24,12 @@ const QuioscoProvider = ({children}) => {
         setProducto(producto);
     }
 
-    const handleAgregarPedido = ({categoria_id, ...producto}) => {
-        const pedidoActual = [...pedido];
-        const existe = pedidoActual.some( productoPedido => productoPedido.id === producto.id);
-        if (existe) {
-            const productos = pedidoActual.map( productoPedido => {
-                if (productoPedido.id === producto.id) {
-                    productoPedido.cantidad += producto.cantidad;
-                    return productoPedido;
-                } else {
-                    return productoPedido;
-                }
-            });
-            setPedido(productos);
+    const handleAgregarPedido = ({categoria_id, imagen, ...producto}) => {
+        if (pedido.some( pedidoState => pedidoState.id === producto.id)) {
+            const pedidoActualizado = pedido.map( pedidoState => pedidoState.id === producto.id ? producto : pedidoState)
+            setPedido(pedidoActualizado)
         } else {
-            setPedido([...pedidoActual, producto]);
+            setPedido([...pedido, producto ])
         }
     }
 
@@ -62,4 +53,4 @@ const QuioscoProvider = ({children}) => {
 export {
     QuioscoProvider
 }
-export default QuioscoContext;
+export default QuioscoContext
